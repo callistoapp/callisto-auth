@@ -1,0 +1,32 @@
+{
+  "name": "@risingstack/nodehero-authentication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RisingStack/nodehero-authentication.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RisingStack/nodehero-authentication/issues"
+  },
+  "homepage": "https://github.com/RisingStack/nodehero-authentication#readme",
+  "dependencies": {
+    "bcrypt": "1.0.3",
+    "body-parser": "1.18.2",
+    "connect-redis": "3.3.3",
+    "express": "4.16.2",
+    "express-handlebars": "3.0.0",
+    "express-session": "1.15.6",
+    "mysql": "^2.15.0",
+    "passport": "0.4.0",
+    "passport-local": "1.0.0"
+  }
+}
