@@ -1,0 +1,3 @@
+# callisto-auth
+
+Authentication server
