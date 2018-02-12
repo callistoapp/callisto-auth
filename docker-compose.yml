@@ -1,0 +1,50 @@
+version: '3.0'
+volumes:
+  node_modules:
+services:
+  auth:
+    environment:
+      - REDIS_STORE_HOST=redis
+      - REDIS_STORE_SECRET=password
+      - PORT=3001
+      - MYSQL_ROOT_PASSWORD=password
+    build: .
+    ports:
+      - "8080:3001"
+    networks:
+      - auth-network
+    volumes:
+      - .:/opt/app/:rw
+      - node_modules:/opt/app/node_modules/:rw
+    command:
+      sh -c '
+        if test -d node_modules;
+        then
+          echo rm -rf node_modules;
+        cp -a /tmp/node_modules /opt/app;
+        fi &&
+        DEBUG=connect-redis npm start'
+
+  redis:
+    networks:
+      - auth-network
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  mysql:
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - auth-network
+    image: mysql
+    ports:
+      - "3306:3306"
+
+
+networks:
+  auth-network:
+     driver: bridge
+     ipam:
+       config:
+         - subnet: 172.25.0.0/24
