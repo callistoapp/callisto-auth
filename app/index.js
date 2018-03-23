@@ -6,10 +6,11 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
-
+const morgan = require('morgan');
 const config = require('../config')
 const app = express()
 
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
   extended: false
 }))
@@ -50,6 +51,5 @@ app.set('view engine', '.hbs')
 app.set('views', path.join(__dirname))
 
 require('./user').init(app)
-require('./note').init(app)
 
 module.exports = app

@@ -1,23 +1,11 @@
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy
+const RegisterStrategy = require('passport-local-register').Strategy
 const UserDb = require('../user').UserDb
 const authenticationMiddleware = require('./middleware')
 
-// Generate Password
-// const saltRounds = 10
-// const myPlaintextPassword = 'my-password'
-// const salt = bcrypt.genSaltSync(saltRounds)
-// const passwordHash = bcrypt.hashSync(myPlaintextPassword, salt)
-
-// const user = {
-//   username: 'test-user',
-//   passwordHash,
-//   id: 1
-// }
-
 const db = new UserDb()
-
 
 passport.serializeUser(function (user, cb) {
   cb(null, user.username)
@@ -28,6 +16,34 @@ passport.deserializeUser(function (username, cb) {
 })
 
 function initPassport () {
+  passport.use(new RegisterStrategy(
+    (username, password, done) => {
+      db.getUser(username, (err, user) => {
+        if (err) {
+          return done(err)
+        }
+        if (!user) {
+          return done() // see section below
+        }
+        // if (!user.verifyPassword(password)) {
+        //   return done(null, false)
+        // }
+        done(null, user)
+      });
+    }, (username, password, done) => {
+      db.createUser(username, (err, user) => {
+        if(err) {
+          return done(err)
+        }
+        // if(!user) {
+        //   err = new Error("User creation failed.")
+        //   return done(err)
+        // }
+        done(null, user)
+      });
+    }
+  ))
+
   passport.use(new LocalStrategy(
     (username, password, done) => {
       db.getUser(username, (err, user) => {

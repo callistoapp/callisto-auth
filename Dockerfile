@@ -12,6 +12,6 @@ ADD package-lock.json package.json /tmp/
 
 RUN npm install nodemon -g
 
-EXPOSE 3001
+EXPOSE 3001 50051
 
 RUN cd /tmp && npm i

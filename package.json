@@ -1,7 +1,7 @@
 {
-  "name": "@risingstack/nodehero-authentication",
+  "name": "callisto-auth",
   "version": "1.0.0",
-  "description": "",
+  "description": "Authentication and Authorization server for callisto application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,15 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RisingStack/nodehero-authentication.git"
+    "url": "git+https://github.com/xeivieni/callisto-auth.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RisingStack/nodehero-authentication/issues"
-  },
-  "homepage": "https://github.com/RisingStack/nodehero-authentication#readme",
   "dependencies": {
     "bcrypt": "1.0.3",
     "body-parser": "1.18.2",
@@ -25,8 +21,13 @@
     "express": "4.16.2",
     "express-handlebars": "3.0.0",
     "express-session": "1.15.6",
+    "grpc": "^1.9.1",
+    "morgan": "^1.9.0",
     "mysql": "^2.15.0",
     "passport": "0.4.0",
-    "passport-local": "1.0.0"
+    "passport-local": "1.0.0",
+    "passport-local-register": "^1.0.4",
+    "randomstring": "^1.1.5",
+    "google-protobuf": "^3.5.0"
   }
 }
