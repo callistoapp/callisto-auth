@@ -1,5 +1,5 @@
-const mysql = require("mysql");
-const mysqlConfig = require("../../config").mysql;
+import mysql from 'mysql'
+import {mysqlConfig} from '../../config'
 
 const connection = mysql.createConnection({
   host: "mysql",
