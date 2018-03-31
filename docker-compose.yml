@@ -8,6 +8,7 @@ services:
       - REDIS_STORE_SECRET=password
       - PORT=3001
       - MYSQL_ROOT_PASSWORD=password
+      - JWT_SECRET=MyS3cR37KEY
     build: .
     ports:
       - "8080:3001"
@@ -23,7 +24,7 @@ services:
           echo rm -rf node_modules;
         cp -a /tmp/node_modules /opt/app;
         fi &&
-        DEBUG=connect-redis npm start'
+        DEBUG=connect-redis npm start '
 
   redis:
     networks:

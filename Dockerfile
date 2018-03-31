@@ -15,3 +15,5 @@ RUN npm install nodemon -g
 EXPOSE 3001 50051
 
 RUN cd /tmp && npm i
+
+RUN npm run watch
