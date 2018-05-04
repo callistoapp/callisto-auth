@@ -6,7 +6,7 @@ const router = new Router()
 // /login
 router.post('/login',
   passport.authenticate('local-login', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )
@@ -14,7 +14,7 @@ router.post('/login',
 // /register
 router.post('/register',
   passport.authenticate('local-register', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )

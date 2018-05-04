@@ -6,7 +6,7 @@ const router = new Router()
 // /google
 router.get('/',
   passport.authenticate('google', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )
@@ -14,7 +14,7 @@ router.get('/',
 // /google/callback
 router.get('/callback',
   passport.authenticate('google', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )

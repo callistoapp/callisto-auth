@@ -6,7 +6,6 @@ const router = new Router()
 export const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated())
     return next()
-
   res.redirect('/login')
 }
 
@@ -14,16 +13,13 @@ export const isLoggedIn = (req, res, next) => {
 export const isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated())
     return next()
-
   res.redirect('/profile')
 }
 
-router.get('/profile', isLoggedIn, (req, res) => {
-  res.redirect('http://app.callisto.com')
-})
-
-router.get('/login/check', isLoggedIn, (req, res) => {
-  res.send(200)
+router.get('/profile', (req, res) => {
+  if (req.isAuthenticated())
+        res.send(200, req.user)
+  res.sendStatus(401)
 })
 
 router.get('/logout', (req, res) => {

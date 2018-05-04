@@ -6,7 +6,7 @@ const router = new Router()
 // /auth/github
 router.get('/',
   passport.authenticate('github', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )
@@ -14,7 +14,7 @@ router.get('/',
 // /auth/github/callback
 router.get('/callback',
   passport.authenticate('github', {
-    successRedirect: '/profile',
+    successRedirect: 'http://app.callisto.com',
     failureRedirect: '/login'
   })
 )
