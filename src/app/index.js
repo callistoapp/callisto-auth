@@ -19,7 +19,11 @@ app.use(bodyParser.urlencoded({
 app.use(session({
   secret: 'ilovescotchscotchyscotchscotch', // session secret
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    domain: ".callisto.com",
+    name: "callisto_session"
+  }
 }))
 
 initAuth(app)
