@@ -9,6 +9,10 @@ services:
       - PORT=3001
       - MYSQL_ROOT_PASSWORD=password
       - JWT_SECRET=MyS3cR37KEY
+      - GITHUB_CLIENT_ID=5f297cc6ebe92a6d29b5
+      - GOOGLE_CLIENT_ID=425377971208-lv0phruapvm1kr9aogg4pi1d3bjci236.apps.googleusercontent.com
+      - GITHUB_CLIENT_SECRET=b49511fc0e5f6eee1115bb5436148b3039d8c20f
+      - GOOGLE_CLIENT_SECRET=oLajxb4RU8sH6vTql9RLarok
     build: .
     ports:
       - "8080:3001"
