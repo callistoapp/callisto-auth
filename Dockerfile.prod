@@ -1,0 +1,24 @@
+FROM node
+
+MAINTAINER Clement Mondion
+
+ENV REDIS_STORE_HOST redis
+ENV REDIS_STORE_SECRET password
+ENV PORT 3001
+ENV MYSQL_ROOT_PASSWORD password
+ENV JWT_SECRET MyS3cR37KEY
+
+WORKDIR /opt/app
+
+RUN mkdir -p /opt/app && cd /opt/app
+ADD . /opt/app
+
+RUN mkdir -p /tmp/
+
+ADD package-lock.json package.json /tmp/
+
+EXPOSE 3001 50051
+
+RUN cd /tmp && npm i
+
+RUN npm run build
