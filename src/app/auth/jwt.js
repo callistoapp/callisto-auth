@@ -1,4 +1,3 @@
-import passport from 'passport'
 import passportJWT from 'passport-jwt'
 import * as _ from 'lodash'
 
@@ -13,29 +12,18 @@ const params = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
 }
 
-const users = new UserModel()
+const Users = new UserModel()
 
-const init = () => {
-  const strategy = new Strategy(params, function (payload, done) {
-    users.getUserById(payload.id, (err, user) => {
-      if (err === null && !_.isNil(user)) {
-        return done(null, {
-          id: user.id
-        })
-      } else {
-        return done("User not found", null)
-      }
-    })
-  })
-  passport.use(strategy)
-  return {
-    initialize: () => {
-      return passport.initialize()
-    },
-    authenticate: () => {
-      return passport.authenticate("jwt", jwtConfig.jwtSession)
+const JwtStrategy = new Strategy(params, function (payload, done) {
+  Users.getUser({id: payload.id}, (err, user) => {
+    if (err === null && !_.isNil(user)) {
+      return done(null, {
+        id: user.id
+      })
+    } else {
+      return done("User not found", null)
     }
-  }
-}
+  })
+})
 
-export default init
+export default JwtStrategy

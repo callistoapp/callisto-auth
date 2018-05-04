@@ -1,87 +1,34 @@
-import path from 'path'
 import express from 'express'
-import exphbs from 'express-handlebars'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
-import jwt from 'jwt-simple'
-
-import initJwt from './auth/jwt'
-import UserModel from './models/user'
-import {jwtConfig} from '../config/index'
-import * as _ from "lodash";
-
+import initAuth from './auth/init'
+import GithubRoutes from './routes/auth/github'
+import GoogleRoutes from './routes/auth/google'
+import JwtRoutes from './routes/auth/jwt'
+import LocalRoutes from './routes/auth/local'
+import StaticRoutes from './routes/static'
+import MainRoutes from './routes/index'
+import session from 'express-session'
 const app = express()
-const db  = new UserModel()
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-const {initialize, authenticate} = initJwt()
-
-app.use(initialize())
-
-app.engine('.hbs', exphbs({
-  defaultLayout: 'layout',
-  extname      : '.hbs',
-  layoutsDir   : path.join(__dirname),
-  partialsDir  : path.join(__dirname)
+app.use(session({
+  secret: 'ilovescotchscotchyscotchscotch', // session secret
+  resave: true,
+  saveUninitialized: true
 }))
 
-app.post("/login", function (req, res) {
-  if (req.body.username && req.body.password) {
-    const username = req.body.username
-    const password = req.body.password
-    db.verifyUser(username, password, (err, user) => {
-      console.log(user, err)
-      if (err === null && !_.isNil(user)) {
-        const payload = {
-          id: user.id
-        }
-        const token   = jwt.encode(payload, jwtConfig.jwtSecret)
-        res.json({
-          token: token
-        })
-      } else {
-        res.sendStatus(401)
-      }
-    })
-  } else {
-    res.sendStatus(401)
-  }
-})
+initAuth(app)
 
-app.post("/register", function (req, res) {
-  if (req.body.username && req.body.email && req.body.password) {
-    const {username, email, password} = req.body
-    db.createUser({username, password, email}, (err, user) => {
-      if (err === null && !_.isNil(user)) {
-        const payload = {
-          id: user.id
-        }
-        const token   = jwt.encode(payload, jwtConfig.jwtSecret)
-        res.json({
-          token: token
-        })
-      } else {
-        res.sendStatus(401)
-      }
-    })
-  } else {
-    res.sendStatus(401)
-  }
-})
-
-app.set('view engine', '.hbs')
-app.set('views', path.join(__dirname))
-
-app.get("/check", authenticate('jwt', {session: false}), function (req, res) {
-  res.json("Success! Youre connected")
-})
-
-app.get("/", (req, res) => {
-  res.json("Welcome to callisto auth")
-})
+app.use('/github', GithubRoutes)
+app.use('/google', GoogleRoutes)
+app.use('/jwt', JwtRoutes)
+app.use(LocalRoutes)
+app.use(StaticRoutes)
+app.use(MainRoutes)
 
 export default app
