@@ -14,7 +14,8 @@ const params = {
 const GithubStrategy = new Strategy(params, (accessToken, refreshToken, profile, done) => {
   Users.findOrCreate({
     githubId: profile.id,
-    username: profile.displayName,
+    username: profile.username,
+    fullname: profile.displayName,
     email: _.get(_.first(profile.emails), 'value'),
     avatar: _.get(_.first(profile.photos), 'value')
   }, function (err, user) {
