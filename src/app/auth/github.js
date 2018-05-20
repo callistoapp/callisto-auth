@@ -1,5 +1,6 @@
 import Strategy from 'passport-github'
 import UserModel from '../models/user'
+import * as _ from 'lodash'
 import {githubConfig} from '../../config'
 
 const Users = new UserModel()
@@ -11,7 +12,12 @@ const params = {
 }
 
 const GithubStrategy = new Strategy(params, (accessToken, refreshToken, profile, done) => {
-  Users.findOrCreate({githubId: profile.id}, function (err, user) {
+  console.log(profile)
+  Users.findOrCreate({
+    githubId: profile.id,
+    username: profile.displayName,
+    email: _.get(_.first(profile.emails), 'value')
+  }, function (err, user) {
     return done(err, user)
   })
 })
